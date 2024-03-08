@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mowaterApp/core/style/text_style.dart';
 
 class CustomTextFormField extends StatefulWidget {
   final String hintText;
@@ -55,7 +56,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             suffix: widget.trailing,
             prefixIcon: widget.leading,
             hintText: widget.hintText,
-            hintStyle: const TextStyle(color: Colors.white),
+            hintStyle: TextStyles.text_16
+                .copyWith(color: Colors.white.withOpacity(0.66)),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             border: OutlineInputBorder(

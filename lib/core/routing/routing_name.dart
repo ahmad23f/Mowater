@@ -82,4 +82,13 @@ class RouteName {
   static String verificationCodeScreen = '/verificationCodeScreen';
   static String signInUser = '/signInUser';
   static String verificationEmailScreen = '/verificationEmailScreen';
+  static String forgetPassword = '/forgetPassword';
+  static String verifyResetPasswordCode = '/verifyResetPasswordCode';
+  static String resetPasswordScreen = '/resetPasswordScreen';
+  static String passwordChangedSuccess = '/passwordChangedSuccess';
+
+  ///service provider
+
+  static String serviceProviderChoseTypeAccountScreen =
+      '/ServiceProviderChoseTypeAccountScreen';
 }

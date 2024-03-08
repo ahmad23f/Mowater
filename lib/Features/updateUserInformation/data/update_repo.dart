@@ -16,7 +16,8 @@ class UpdateUserInformationRepositeory {
       "name": user.name,
       'nickname': user.nickname,
       'phone_number': user.phoneNumber,
-      'whatsappNumber': user.whatsappNumber
+      'whatsappNumber': user.whatsappNumber,
+      'password': user.passwrod
     });
 
     if (file != null) {
@@ -46,6 +47,7 @@ class UpdateUserInformationRepositeory {
         return ApiResult.failure(response.message);
       }
     } catch (e) {
+      print(e);
       return const ApiResult.failure('Unkown Error!');
     }
   }

@@ -35,6 +35,7 @@ import 'package:mowaterApp/Features/Parking/presentation/parking_screen.dart';
 import 'package:mowaterApp/Features/SellYourCar/presentation/show_your_car_screen.dart';
 import 'package:mowaterApp/Features/Service24/data/cubit/recovery_cubit.dart';
 import 'package:mowaterApp/Features/Service24/presentation/recovery_screen.dart';
+import 'package:mowaterApp/Features/ServiceProvider%20%20Company/presntation/form_company_detials_screen.dart';
 import 'package:mowaterApp/Features/UsedSpareParts/models/spare_part_company.dart';
 import 'package:mowaterApp/Features/UsedSpareParts/presentation/Cubits/spareParts/spare_parts_category_cubit.dart';
 import 'package:mowaterApp/Features/UsedSpareParts/presentation/ads/used_spare_parts_ads_cubit.dart';
@@ -57,6 +58,11 @@ import 'package:mowaterApp/Features/carNumbers/presntation/sell_your_plate_scree
 import 'package:mowaterApp/Features/carNumbers/presntation/widgets/plate_widget.dart';
 import 'package:mowaterApp/Features/choseAccountType/presentation/chose_account_type_screen.dart';
 import 'package:mowaterApp/Features/evaluation/presentation/evaluation_screen.dart';
+import 'package:mowaterApp/Features/forgetPassword/presntation/forget_password_screen.dart';
+import 'package:mowaterApp/Features/forgetPassword/presntation/password_changed_success.dart';
+import 'package:mowaterApp/Features/forgetPassword/presntation/resetPassword/reset_passwor_cubit.dart';
+import 'package:mowaterApp/Features/forgetPassword/presntation/reset_password_screen.dart';
+import 'package:mowaterApp/Features/forgetPassword/presntation/verif_reset_password_screen.dart';
 import 'package:mowaterApp/Features/home/presentation/cubits/mainCategory/main_categorys_cubit.dart';
 import 'package:mowaterApp/Features/home/presentation/cubits/trendCubit/trend_cubit.dart';
 import 'package:mowaterApp/Features/home/presentation/home_screen.dart';
@@ -121,6 +127,12 @@ class RoutingApp {
           return const ChoseAccountTypeScreen();
         },
       ),
+      GoRoute(
+        path: RouteName.serviceProviderChoseTypeAccountScreen,
+        builder: (BuildContext context, GoRouterState state) {
+          return const ServiceProviderChoseTypeAccountScreen();
+        },
+      ),
 
       GoRoute(
         path: RouteName.userInformationScreen,
@@ -130,6 +142,31 @@ class RoutingApp {
             create: (context) => getIt<UpdateUserInfoCubit>(),
             child: UserInformationScreen(isEditMode: isEditMode),
           );
+        },
+      ),
+      GoRoute(
+        path: RouteName.forgetPassword,
+        builder: (BuildContext context, GoRouterState state) {
+          return BlocProvider(
+            create: (context) => getIt<ResetPassworCubit>(),
+            child: const ForgetPasswordScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteName.resetPasswordScreen,
+        builder: (BuildContext context, GoRouterState state) {
+          int id = state.extra as int;
+          return BlocProvider(
+            create: (context) => getIt<UpdateUserInfoCubit>(),
+            child: ResetPasswordScreen(id: id),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteName.passwordChangedSuccess,
+        builder: (BuildContext context, GoRouterState state) {
+          return const PasswordChangedSuccessScreen();
         },
       ),
       GoRoute(
@@ -147,6 +184,19 @@ class RoutingApp {
                 )
               ],
               child: EmailVerifeCodeScreen(
+                email: data['email'],
+              ));
+        },
+      ),
+      GoRoute(
+        path: RouteName.verifyResetPasswordCode,
+        builder: (BuildContext context, GoRouterState state) {
+          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => getIt<ResetPassworCubit>())
+              ],
+              child: VerifyResetPasswrodScreen(
                 email: data['email'],
               ));
         },
@@ -741,17 +791,18 @@ class RoutingApp {
         },
       ),
     ],
-    redirect: (context, state) {
-      if (isCheckd == false &&
-          UserServices.checkToken() &&
-          UserServices.getUserInformation().email != null &&
-          UserServices.getUserInformation().email!.isNotEmpty &&
-          UserServices.getUserInformation().emailState != 0) {
-        isCheckd = true;
-        return RouteName.home;
-      } else {
-        return null;
-      }
-    },
+    // redirect: (context, state) {
+    //   if (isCheckd == false &&
+    //       UserServices.checkToken() &&
+    //       UserServices.getUserInformation().email != null &&
+    //       UserServices.getUserInformation().email!.isNotEmpty &&
+    //       UserServices.getUserInformation().emailState != 0) {
+    //     // isCheckd = true;a
+    //     // return RouteName.home;
+    //   } else {
+    //     return null;
+    //   }
+    //   return null;
+    // },
   );
 }

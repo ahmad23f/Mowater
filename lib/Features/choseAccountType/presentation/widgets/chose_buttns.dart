@@ -63,22 +63,27 @@ class ChoseAccountTypeButtons extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(mainPadding),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: ColorApp.primeryColorDark)),
-              width: mediasize(context).width,
-              height: 50.h,
-              child: Center(
-                  child: Text(
-                "Service Provider",
-                style: TextStyles.text_18.copyWith(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                    color: ColorApp.primeryColorDark),
-              )),
+          InkWell(
+            onTap: () {
+              context.push(RouteName.serviceProviderChoseTypeAccountScreen);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(mainPadding),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: ColorApp.primeryColorDark)),
+                width: mediasize(context).width,
+                height: 50.h,
+                child: Center(
+                    child: Text(
+                  "Service Provider",
+                  style: TextStyles.text_18.copyWith(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: ColorApp.primeryColorDark),
+                )),
+              ),
             ),
           ),
         ],

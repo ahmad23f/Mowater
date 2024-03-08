@@ -94,35 +94,17 @@ class _SignInUserScreenState extends State<SignInUserScreen> {
                           hintText: 'Password',
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Row(
-                              children: [
-                                Transform.scale(
-                                  scale: 1.3,
-                                  child: Checkbox.adaptive(
-                                    shape: const CircleBorder(),
-                                    activeColor: ColorApp.primeryColorDark,
-                                    checkColor: Colors.white,
-                                    value: _rememberMe,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _rememberMe = value ?? false;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Text(
-                                  "Remember me",
-                                  style: TextStyles.text_14
-                                      .copyWith(fontWeight: FontWeight.normal),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              'Forgot password?',
-                              style: TextStyles.text_14
-                                  .copyWith(color: ColorApp.primeryColorDark),
+                            InkWell(
+                              onTap: () {
+                                context.push(RouteName.forgetPassword);
+                              },
+                              child: Text(
+                                'Forgot password?',
+                                style: TextStyles.text_14
+                                    .copyWith(color: ColorApp.primeryColorDark),
+                              ),
                             )
                           ],
                         ),
@@ -139,9 +121,10 @@ class _SignInUserScreenState extends State<SignInUserScreen> {
                           await context.read<SignInUserCubit>().singIn(
                               email: _emailController.text,
                               password: _passwordController.text);
+                          setState(() {});
                         }
                       },
-                      buttonText: 'Lo gin',
+                      buttonText: 'Login',
                     ),
                   ),
                   BlocBuilder<SignInUserCubit, SignInUserState>(
@@ -172,7 +155,7 @@ class _SignInUserScreenState extends State<SignInUserScreen> {
                           return const SizedBox();
                         },
                         loading: () {
-                          return const CircularProgressIndicator.adaptive();
+                          return const SizedBox();
                         },
                       );
                     },

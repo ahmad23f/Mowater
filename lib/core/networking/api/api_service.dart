@@ -14,6 +14,7 @@ import 'package:mowaterApp/Features/UsedSpareParts/models/spare_part_company.dar
 import 'package:mowaterApp/Features/addNumberForAccount/models/update_number_response_model.dart';
 import 'package:mowaterApp/Features/carCare/models/car_car_model.dart';
 import 'package:mowaterApp/Features/carNumbers/models/plate_model.dart';
+import 'package:mowaterApp/Features/forgetPassword/models/reset_password_response.dart';
 import 'package:mowaterApp/Features/fuel/models/fuel_model.dart';
 import 'package:mowaterApp/Features/home/models/mainCategorys/main_categorys_model.dart';
 import 'package:mowaterApp/Features/home/models/trendingModel/trend_model.dart';
@@ -282,6 +283,21 @@ abstract class ApiService {
   );
   @POST(ApiConstans.resendEmailCode)
   Future<StatusApiResponse> resednEmailCode(
+    @Body() FormData data,
+  );
+  @POST(ApiConstans.forgetPassword)
+  Future<ResetPasswordResponse> forgetPassword(
+    @Body() FormData data,
+  );
+  @POST(ApiConstans.verifyResetPasswordCode)
+  Future<ResetPasswordResponse> verifyResetEmailCode(
+    @Body() FormData data,
+  );
+
+  // service provider
+
+  @POST(ApiConstans.addServiceProviderMaintenance)
+  Future<StatusApiResponse> addServicePrviderMaintenance(
     @Body() FormData data,
   );
 }

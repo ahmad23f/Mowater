@@ -24,6 +24,7 @@ import 'package:mowaterApp/Features/carCare/presntation/cubit/car_care_companies
 import 'package:mowaterApp/Features/carNumbers/presntation/plateAds/plate_ads_cubit.dart';
 import 'package:mowaterApp/Features/carNumbers/presntation/plateCateogry/plate_category_cubit.dart';
 import 'package:mowaterApp/Features/carNumbers/presntation/sellYourPlate/sell_you_plate_cubit.dart';
+import 'package:mowaterApp/Features/forgetPassword/presntation/resetPassword/reset_passwor_cubit.dart';
 import 'package:mowaterApp/Features/fuel/presentation/fuelPrice/fuel_price_cubit.dart';
 import 'package:mowaterApp/Features/home/presentation/cubits/mainCategory/main_categorys_cubit.dart';
 import 'package:mowaterApp/Features/home/presentation/cubits/trendCubit/trend_cubit.dart';
@@ -62,6 +63,7 @@ Future<void> setupServices() async {
   getIt.registerFactory<SignInUserCubit>(() => SignInUserCubit(getIt()));
   getIt.registerFactory<ResendOtpCubit>(() => ResendOtpCubit(getIt()));
   getIt.registerFactory<VerifyEmailCubit>(() => VerifyEmailCubit(getIt()));
+  getIt.registerFactory<ResetPassworCubit>(() => ResetPassworCubit(getIt()));
 
   getIt
       .registerFactory<UpdateUserInfoCubit>(() => UpdateUserInfoCubit(getIt()));

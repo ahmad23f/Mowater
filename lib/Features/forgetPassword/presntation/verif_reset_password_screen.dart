@@ -2,38 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mowaterApp/Features/signUp/presentation/cubits/verifyEmail/verify_email_cubit.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mowaterApp/Features/forgetPassword/presntation/resetPassword/reset_passwor_cubit.dart';
+import 'package:mowaterApp/Features/forgetPassword/presntation/widget/resend_timer.dart';
 import 'package:mowaterApp/core/constants/color.dart';
 import 'package:mowaterApp/core/constants/size.dart';
-import 'package:mowaterApp/core/services/user_state.dart';
+import 'package:mowaterApp/core/routing/routing_name.dart';
 import 'package:mowaterApp/core/style/text_style.dart';
 import 'package:mowaterApp/core/widgets/animation_loading_button.dart';
 import 'package:mowaterApp/core/widgets/snak_bar.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
-class EmailVerifeCodeScreen extends StatefulWidget {
+class VerifyResetPasswrodScreen extends StatefulWidget {
   final String email;
 
-  const EmailVerifeCodeScreen({
+  const VerifyResetPasswrodScreen({
     Key? key,
     required this.email,
   }) : super(key: key);
 
   @override
-  _EmailVerifeCodeScreenState createState() => _EmailVerifeCodeScreenState();
+  _VerifyResetPasswrodScreenState createState() =>
+      _VerifyResetPasswrodScreenState();
 }
 
-class _EmailVerifeCodeScreenState extends State<EmailVerifeCodeScreen> {
+class _VerifyResetPasswrodScreenState extends State<VerifyResetPasswrodScreen> {
   late BuildContext _scaffoldContext; // Store the context of the scaffold
-
-  @override
-  void initState() {
-    SmsAutoFill().listenForCode();
-    BlocProvider.of<VerifyEmailCubit>(context).resendCode(
-      email: widget.email,
-    );
-    super.initState();
-  }
 
   String code = '';
   @override
@@ -56,7 +49,7 @@ class _EmailVerifeCodeScreenState extends State<EmailVerifeCodeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Verify Your Email',
+                  'Please check your email',
                   style: TextStyles.text_30
                       .copyWith(color: ColorApp.primeryColorDark),
                   textAlign: TextAlign.center,
@@ -92,34 +85,23 @@ class _EmailVerifeCodeScreenState extends State<EmailVerifeCodeScreen> {
                   fieldWidth: 50.w,
                   borderWidth: 1.0,
                   showFieldAsBox: true,
-                  onCodeChanged: (String newCode) {
-                    // Optional: Handle code changes
-                    code = newCode;
-                  },
+                  onCodeChanged: (String newCode) {},
                   onSubmit: (String verificationCode) {
                     // Send the verification code to the cubit for processing
-                    BlocProvider.of<VerifyEmailCubit>(context).verify(
-                      email: widget.email,
-                      context: context,
-                      code: verificationCode,
+                    BlocProvider.of<ResetPassworCubit>(context).verifyCode(
+                      widget.email,
+                      verificationCode,
                     );
+                    code = verificationCode;
                   },
                 ),
                 SizedBox(height: 30.h),
-                BlocBuilder<VerifyEmailCubit, VerifyEmailState>(
+                BlocBuilder<ResetPassworCubit, ResetPassworState>(
                   builder: (context, state) {
                     return state.when(
                       initial: () => LoadingButton(
                         isLoading: false,
-                        onPressed: () {
-                          print(UserServices.getUserInformation().id);
-                          print(UserServices.getUserInformation().username);
-                          BlocProvider.of<VerifyEmailCubit>(context).verify(
-                            context: context,
-                            email: widget.email,
-                            code: code,
-                          );
-                        },
+                        onPressed: () async {},
                         buttonText: 'Verify',
                       ),
                       loading: () => LoadingButton(
@@ -130,20 +112,16 @@ class _EmailVerifeCodeScreenState extends State<EmailVerifeCodeScreen> {
                       success: (user) {
                         return LoadingButton(
                           isLoading: false,
-                          onPressed: () {
-                            BlocProvider.of<VerifyEmailCubit>(context).verify(
-                              context: context,
-                              email: widget.email,
-                              code: code,
-                            );
+                          onPressed: () async {
+                            await BlocProvider.of<ResetPassworCubit>(context)
+                                .verifyCode(widget.email, code);
+                            setState(() {});
                           },
                           buttonText: 'Verify',
                         );
                       },
                       failure: (error) {
                         WidgetsBinding.instance.addPostFrameCallback((_) async {
-                          print(
-                              'name ${UserServices.getUserInformation().username}');
                           ShowSnakBar(
                             context,
                             title: 'Failure',
@@ -156,8 +134,13 @@ class _EmailVerifeCodeScreenState extends State<EmailVerifeCodeScreen> {
                           );
                         });
                         return LoadingButton(
-                          isLoading: false,
-                          onPressed: () {},
+                          isLoading: BlocProvider.of<ResetPassworCubit>(context)
+                              .isLoading,
+                          onPressed: () async {
+                            await BlocProvider.of<ResetPassworCubit>(context)
+                                .verifyCode(widget.email, code);
+                            setState(() {});
+                          },
                           buttonText: 'Verify',
                         );
                       },
@@ -165,44 +148,25 @@ class _EmailVerifeCodeScreenState extends State<EmailVerifeCodeScreen> {
                   },
                 ),
                 SizedBox(height: 10.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      " I didn't receive a code ,",
-                      style: TextStyles.text_16,
-                    ),
-                    InkWell(
-                      onTap: () async {
-                        await BlocProvider.of<VerifyEmailCubit>(context)
-                            .resendCode(
-                          email: widget.email,
-                        );
-                        setState(() {});
-                      },
-                      child: Text('Resend',
-                          style: TextStyles.text_16.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: ColorApp.primeryColorDark)),
-                    )
-                  ],
-                ),
-                BlocBuilder<VerifyEmailCubit, VerifyEmailState>(
+                InkWell(
+                    onTap: () {
+                      code = '';
+                    },
+                    child: ResendTimer(email: widget.email)),
+                BlocBuilder<ResetPassworCubit, ResetPassworState>(
                   builder: (context, state) {
                     return state.when(
                       initial: () => const SizedBox(),
-                      success: (successMessage) {
-                        print('success');
-                        Future(() => ShowSnakBar(
-                              context,
-                              title: 'Success',
-                              iconData: Icons.info_outline_rounded,
-                              messageTextStyle: TextStyles.text_16
-                                  .copyWith(fontWeight: FontWeight.bold),
-                              content: successMessage,
-                              subtitleTextStyle: TextStyles.text_16,
-                              backGroundColor: ColorApp.secunderyColorDark,
-                            ));
+                      success: (success) {
+                        // Show success message
+
+                        if (code.isNotEmpty && code.length > 4) {
+                          // Navigate to the reset password screen
+                          Future.delayed(Duration.zero, () {
+                            context.go(RouteName.resetPasswordScreen,
+                                extra: success.id);
+                          });
+                        }
                         return const SizedBox();
                       },
                       failure: (errorMessage) {

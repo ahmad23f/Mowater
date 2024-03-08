@@ -27,8 +27,10 @@ class UserModel {
   final String? emailVerifedCode;
   @JsonKey(name: 'email_state')
   final int? emailState;
+  final String? passwrod;
 
   UserModel({
+    this.passwrod,
     this.emailState,
     this.emailVerifedCode,
     this.whatsappVerified,

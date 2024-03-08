@@ -7,6 +7,7 @@ part of 'user_response.dart';
 // **************************************************************************
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
+      passwrod: json['passwrod'] as String?,
       emailState: json['email_state'] as int?,
       emailVerifedCode: json['email_verification_code'] as String?,
       whatsappVerified: json['whatsappVerified'] as int?,
@@ -46,6 +47,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
           instance.lastUpdateWhatsAppNumber?.toIso8601String(),
       'email_verification_code': instance.emailVerifedCode,
       'email_state': instance.emailState,
+      'passwrod': instance.passwrod,
     };
 
 UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mowaterApp/Features/forgetPassword/data/reset_code_email_rep.dart';
 import 'package:mowaterApp/Features/signUp/presentation/data/repositeory/email_verify.dart';
 import 'package:mowaterApp/core/networking/api/api_service.dart';
 import 'package:mowaterApp/core/routing/routing_name.dart';
@@ -26,8 +27,6 @@ class VerifyEmailCubit extends Cubit<VerifyEmailState> {
           if (UserServices.getUserInformation().id != -1 &&
               UserServices.getUserInformation().username != 'Ghost' &&
               UserServices.getUserInformation().username != '') {
-            print(UserServices.getUserInformation().id);
-            print(UserServices.getUserInformation().username);
             context.go(RouteName.home);
           } else {
             GoRouter.of(context)

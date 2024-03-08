@@ -96,6 +96,7 @@ class ApiConstans {
   static const String signInUser = 'auth/sign_in.php';
   static const String resendCode = 'auth/resend_code.php';
   static const String resendEmailCode = 'auth/resend_email_code.php';
+  static const String forgetPassword = 'auth/forget_password.php';
 
 //rental cars
   static const String getAllCompanyRentalCars =
@@ -124,4 +125,10 @@ class ApiConstans {
   static const String sparePartsMainAds = 'spareParts/main_ads.php';
   static const String sparePartsCategoryAds = 'spareParts/categorys_ads.php';
   static const String emailVerify = 'auth/verify_email.php';
+  static const String verifyResetPasswordCode =
+      'auth/verify_reset_password.php';
+
+  // service provider
+  static const String addServiceProviderMaintenance =
+      'serviceProviderAuth/maintenance.php';
 }
