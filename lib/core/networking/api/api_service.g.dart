@@ -392,12 +392,12 @@ class _ApiService implements ApiService {
   @override
   Future<List<MowaterMartProductModel>> getRelatedProduct(
     int? id,
-    int? typeId,
+    int? type_id,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'id': id,
-      r'type_id': typeId,
+      r'type_id': type_id,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
